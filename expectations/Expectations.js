@@ -11,6 +11,7 @@ var Expectations = function () {
     this.timeoutAngular = function() {
         browser.waitForAngularEnabled(false);
     }
+
 }
 
 module.exports = new Expectations();

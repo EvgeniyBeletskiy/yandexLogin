@@ -1,29 +1,38 @@
 var expectations = require('C:/Users/anduser/AppData/Roaming/npm/node_modules/protractor/example/yandextests/expectations/Expectations.js');
 var mainPage = require('C:/Users/anduser/AppData/Roaming/npm/node_modules/protractor/example/yandextests/yandexPage/MainPage.js');
 var emailPage = require('C:/Users/anduser/AppData/Roaming/npm/node_modules/protractor/example/yandextests/yandexPage/EmailPage.js');
-
+var loginPage = require('C:/Users/anduser/AppData/Roaming/npm/node_modules/protractor/example/yandextests/yandexPage/LoginPage.js');
 describe("Yandex login", function() {
 
     beforeEach(function() {
-        expectations.timeoutAngular();
+        expectations.timeoutAngular()
+    })
+
+    afterEach(function() {
         mainPage.clearHistory("https://yandex.by/");
     })
 
-    it ("Input login and password", function() {
+    it ("Input login and password, check user", function() {
         mainPage.goToMainPage("https://yandex.by/");
         mainPage.clickEnter();
-        mainPage.inputLoginPass();
+        loginPage.inputLogin("AutotestUser");
+        loginPage.clickEnterButton();
+        loginPage.inputPass("AutotestUser123");
+        loginPage.clickEnterButton();
         emailPage.checkUser();
+        emailPage.clickUser();
+        emailPage.logout();
     })
 
-    /*it("Input login and password", function() {
-        browser.waitForAngularEnabled(false);
-        browser.get("https://yandex.ru/");
-        element(by.css(".desk-notif-card__login-enter-expanded")).click();
-        element(by.name("login")).sendKeys("AutotestUser");
-        element(by.name("passwd")).sendKeys("AutotestUser123");
-        element(by.css(".passport-Button-Text")).click();
-        element(by.css("#recipient-1")).click();
-        element(by.linkText("Выйти из сервисов Яндекса")).click();
-    })*/
+    it("Login and logout", function() {
+        mainPage.goToMainPage("https://yandex.by/");
+        mainPage.clickEnter();
+        //loginPage.inputLogin("AutotestUser");
+        //loginPage.clickEnterButton();
+        loginPage.inputPass("AutotestUser123");
+        loginPage.clickEnterButton();
+        emailPage.clickUser();
+        emailPage.logout();
+        mainPage.elementMissing();
+    })
 })
