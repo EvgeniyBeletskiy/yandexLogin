@@ -5,7 +5,7 @@ var loginPage = require('C:/Users/anduser/AppData/Roaming/npm/node_modules/protr
 describe("Yandex login", function() {
 
     beforeEach(function() {
-        expectations.timeoutAngular()
+        expectations.timeoutAngular();
     })
 
     afterEach(function() {
@@ -14,25 +14,50 @@ describe("Yandex login", function() {
 
     it ("Input login and password, check user", function() {
         mainPage.goToMainPage("https://yandex.by/");
-        mainPage.clickEnter();
+        mainPage.clickLoginEnterButton();
         loginPage.inputLogin("AutotestUser");
-        loginPage.clickEnterButton();
+        loginPage.clickEnterEmailButton();
         loginPage.inputPass("AutotestUser123");
-        loginPage.clickEnterButton();
-        emailPage.checkUser();
-        emailPage.clickUser();
-        emailPage.logout();
+        loginPage.clickEnterEmailButton();
+
+        expectations.isClickable(emailPage.userNameField);
+        expect(emailPage.userNameField.getText()).toEqual('AutotestUser');
     })
 
     it("Login and logout", function() {
         mainPage.goToMainPage("https://yandex.by/");
-        mainPage.clickEnter();
+        mainPage.clickLoginEnterButton();
         //loginPage.inputLogin("AutotestUser");
-        //loginPage.clickEnterButton();
+        //loginPage.clickEnterEmailButton();
         loginPage.inputPass("AutotestUser123");
-        loginPage.clickEnterButton();
-        emailPage.clickUser();
+        loginPage.clickEnterEmailButton();
+        emailPage.clickUserName();
         emailPage.logout();
-        mainPage.elementMissing();
+
+        expectations.isClickable(mainPage.enterEmailButton);
+        expect(mainPage.enterEmailButton.isPresent()).toBe(true);
+    })
+
+    it ("Invalid password", function () {
+        mainPage.goToMainPage("https://yandex.by/");
+        mainPage.clickLoginEnterButton();
+        //loginPage.inputLogin("AutotestUser");
+        //loginPage.clickEnterEmailButton();
+        loginPage.inputPass("NoAutotestUser123");
+        loginPage.clickEnterEmailButton();
+
+        expect(loginPage.wrongPasswordMessage.getText()).toEqual("Неверный пароль. Не помню пароль");
+    })
+
+    it ("Invalid login", function() {
+        mainPage.goToMainPage("https://yandex.by/");
+        mainPage.clickLoginEnterButton();
+        loginPage.clickOnUserOnLoginPage();
+        loginPage.inputLogin("NoAutotestUser");
+        loginPage.clickEnterEmailButton();
+        //loginPage.inputPass("AutotestUser123");
+        //loginPage.clickEnterEmailButton();
+
+        expect(loginPage.wrongLoginMessage.getText()).toEqual("Такого аккаунта нет");
     })
 })

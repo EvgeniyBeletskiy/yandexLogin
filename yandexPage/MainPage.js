@@ -6,7 +6,7 @@ var MainPage = function() {
         browser.get(url);
     }
 
-    this.clickEnter = function() {
+    this.clickLoginEnterButton = function() {
         expectations.isClickable(enterEmailButton);
         enterEmailButton.click();
     }
@@ -14,8 +14,8 @@ var MainPage = function() {
 
     this.clearHistory = function(url) {
         browser.get(url);
-        browser.executeScript('window.localStorage.clear();'); 
-        browser.executeScript('window.sessionStorage.clear();'); 
+        browser.executeScript('window.localStorage.clear()'); 
+        browser.executeScript('window.sessionStorage.clear()'); 
         browser.driver.manage().deleteAllCookies();
     }
 
@@ -25,3 +25,4 @@ var MainPage = function() {
 
 }
 module.exports = new MainPage();
+module.exports.enterEmailButton = enterEmailButton;
