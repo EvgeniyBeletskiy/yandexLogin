@@ -5,14 +5,12 @@ exports.config = {
   seleniumAddress: 'http://127.0.0.1:4444/wd/hub',
 
   // Capabilities to be passed to the webdriver instance.
-  multiCapabilities: [{
+  capabilities: {
     'browserName': 'chrome',
     'chromeOptions': {
       args: ['-start-maximized'] 
   }
-  }, {
-    'browserName': 'firefox'
-  }],
+},
 
   // Framework to use. Jasmine is recommended.
   framework: 'jasmine',
